@@ -39,6 +39,10 @@ function App() {
         <Circle value={turn} /> 's turn
       </div>
       <div style={styles.boardStyle}>
+        {board.map((row) =>
+          row.map((currentPiece, index) => (
+            <Slot
+              value={currentPiece}
               onClick={() => {
                 for (
                   let rowToPlace = board.length - 1;
