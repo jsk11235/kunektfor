@@ -38,7 +38,7 @@ function App() {
       <div>
         <Circle value={turn} /> 's turn
       </div>
-      <div style={styles.boardStyle}>d$
+      <div style={styles.boardStyle}>
               onClick={() => {
                 for (
                   let rowToPlace = board.length - 1;
