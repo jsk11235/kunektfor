@@ -13,3 +13,64 @@ export function arraysEqual(a, b) {
   }
   return true;
 }
+
+export function checkBoard(board) {
+  let won = 0;
+  for (let x = 0; x < board.length; x++) {
+    for (let y = 0; y < board[0].length; y++) {
+      for (let z = 1; z < 3; z++) {
+        if (
+          x > 2 &&
+          y < board[0].length - 3 &&
+          arraysEqual(
+            [
+              board[x][y],
+              board[x - 1][y + 1],
+              board[x - 2][y + 2],
+              board[x - 3][y + 3],
+            ],
+            [z, z, z, z]
+          )
+        ) {
+          won = z;
+        }
+
+        if (
+          y < board[0].length - 3 &&
+          arraysEqual(
+            [board[x][y], board[x][y + 1], board[x][y + 2], board[x][y + 3]],
+            [z, z, z, z]
+          )
+        ) {
+          won = z;
+        }
+
+        if (
+          x > 2 &&
+          arraysEqual(
+            [board[x][y], board[x - 1][y], board[x - 2][y], board[x - 3][y]],
+            [z, z, z, z]
+          )
+        ) {
+          won = z;
+        }
+        if (
+          y < board[0].length - 3 &&
+          x < board.length - 3 &&
+          arraysEqual(
+            [
+              board[x][y],
+              board[x + 1][y + 1],
+              board[x + 2][y + 2],
+              board[x + 3][y + 3],
+            ],
+            [z, z, z, z]
+          )
+        ) {
+          won = z;
+        }
+      }
+    }
+  }
+  return won;
+}

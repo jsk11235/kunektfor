@@ -5,7 +5,7 @@ export function Button({title, onClick,isRed}) {
     container:{
       color: '#FFFFFF' ,
       backgroundColor: isRed?'#FF0000':'#0000FF',
-      display: 'inline',
+      display: 'inline-block',
       padding: 4 ,
       cursor: 'pointer'
     }
