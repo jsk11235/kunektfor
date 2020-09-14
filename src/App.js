@@ -20,16 +20,15 @@ function App() {
   function initialize() {
     const tmpBoard = generateEmptyBoard();
     setBoard(tmpBoard);
-    setTurn(1)
-    setRecentMove(null)
+    setTurn(1);
+    setRecentMove(null);
   }
 
   const [turn, setTurn] = useState(1);
   const [board, setBoard] = useState([]);
   const [recentMove, setRecentMove] = useState(null);
   const [waiting, setWaiting] = useState(false);
-  const [difficulty,setDifficulty] = useState(5)
-
+  const [difficulty, setDifficulty] = useState(1);
   useEffect(() => initialize(), []);
 
   useEffect(() => {
@@ -49,8 +48,20 @@ function App() {
     boardStyle: {
       display: "flex",
       flexWrap: "wrap",
-      width:648,
+      width: 648,
     },
+    buttonHolder:{
+      padding:4
+    },
+    header:{
+      display:'flex',
+      justifyContent:'space-between',
+      alignItems:'center',
+      width: 648
+    },
+    difficultyHolder:{
+      display:'flex'
+    }
   };
 
   function executeMove(column, prevBoard, testTurn) {
@@ -145,7 +156,7 @@ function App() {
   }
 
   function nextMove(currentBoard, player) {
-    return minimax(currentBoard, 5, player, -10000, 10000).move;
+    return minimax(currentBoard, (difficulty+3), player, -10000, 10000).move;
   }
 
   //console.log(minimax([[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[2,0,1,1,0,0,0]],6,2,-10000,10000))
@@ -153,19 +164,34 @@ function App() {
 
   return (
     <div>
-      <Button
-        title={"Restart"}
-        onClick={() => {
-          initialize();
-        }}
-      />
+      <div style={styles.header}>
+        <div style = {styles.difficultyHolder}>
+          {["Easy", "Medium", "Hard"].map((element, index) => (
+            <div style={styles.buttonHolder}>
+              <Button
+              title={element}
+              onClick={() => setDifficulty(index)}
+              isRed={index===difficulty}
+            />
+            </div>
+          ))}
+        </div>
+        <div>
+          {waiting?<div>Computer is thinking</div>:<div><Circle value={turn} /> 's turn</div>}
+        </div>
+        <div>
+          <Button
+            title={"Restart"}
+            onClick={() => {
+              initialize();
+            }}
+          />
+        </div>
+      </div>
 
       {won ? (
         <div> player {won === 1 ? "red" : "black"} has won the game </div>
       ) : null}
-      <div>
-        <Circle value={turn} /> 's turn
-      </div>
       <div style={styles.boardStyle}>
         {board.map((row, rowIndex) =>
           row.map((currentPiece, index) => (
