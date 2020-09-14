@@ -109,6 +109,9 @@ function App() {
                 b = endScore;
                 moveDone = move;
               }
+              if (a >= b) {
+                return { score: b, move: move };
+              }
             }
           }
           return { score: endScore, move: moveDone };
@@ -132,6 +135,9 @@ function App() {
                 endScore = m;
                 a = endScore;
                 moveDone = move;
+              }
+              if (a >= b) {
+                return { score: a, move: move };
               }
             }
           }
