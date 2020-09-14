@@ -16,10 +16,10 @@ export function arraysEqual(a, b) {
 
 export function scoreBoard(boardToScore) {
   if (checkBoard(boardToScore) === 1) {
-    return -10000;
+    return 10000;
   }
   if (checkBoard(boardToScore) === 2) {
-    return 10000;
+    return -10000;
   }
   let score = 0;
   for (let x = 0; x < boardToScore.length; x++) {

@@ -20,38 +20,53 @@ function App() {
   function initialize() {
     const tmpBoard = generateEmptyBoard();
     setBoard(tmpBoard);
+    setTurn(1)
+    setRecentMove(null)
   }
 
   const [turn, setTurn] = useState(1);
   const [board, setBoard] = useState([]);
   const [recentMove, setRecentMove] = useState(null);
   const [waiting, setWaiting] = useState(false);
+  const [difficulty,setDifficulty] = useState(5)
 
   useEffect(() => initialize(), []);
 
   useEffect(() => {
-      if (waiting && board) {
-        const copy = deepCopy(board);
+    if (waiting && board) {
+      const copy = deepCopy(board);
+      if (!checkBoard(board)) {
         const c = nextMove(board, 2);
         setBoard(executeMove(c, copy, 2));
-        setWaiting(false);
         setTurn(1);
+        setRecentMove([getRow(c, board), c]);
       }
+      setWaiting(false);
+    }
   }, [waiting]);
 
   const styles = {
     boardStyle: {
       display: "flex",
       flexWrap: "wrap",
+      width:648,
     },
   };
 
   function executeMove(column, prevBoard, testTurn) {
+    const row = getRow(column, prevBoard);
+    if (!isNaN(row)) {
+      let tempBoard = deepCopy(prevBoard);
+      tempBoard[getRow(column, prevBoard)][column] = testTurn;
+      return tempBoard;
+    }
+  }
+
+  function getRow(column, prevBoard) {
     for (let rowToPlace = prevBoard.length - 1; rowToPlace >= 0; rowToPlace--) {
       if (prevBoard[rowToPlace][column] === 0) {
-        let tempBoard = deepCopy(prevBoard);
-        tempBoard[rowToPlace][column] = testTurn;
-        return tempBoard;
+        console.log(rowToPlace, column);
+        return rowToPlace;
       }
     }
   }
@@ -62,113 +77,89 @@ function App() {
 
   function minimax(givenSituation, depth, player, a, b) {
     if (givenSituation) {
-      const boardCheck = checkBoard(givenSituation);
-      if (!boardCheck) {
+      const boardScore = scoreBoard(givenSituation);
+      if (Math.abs(boardScore) < 10000) {
         if (depth === 0) {
-          return scoreBoard(givenSituation);
+          return { score: scoreBoard(givenSituation), move: null };
         }
         let endScore = 0;
         if (player === 2) {
           endScore = b;
-          let copy = deepCopy(givenSituation);
+          let moveDone = 0;
           for (let move = 0; move < 7; move++) {
-            let m = minimax(
-              executeMove(move, givenSituation, 2),
-              depth - 1,
-              1,
-              a,
-              b
-            );
-            if (m < endScore) {
-              givenSituation = deepCopy(copy);
-              endScore = m;
-              b = endScore;
-            }
-            if (a>=b){
-              return b
+            const executedMove = executeMove(move, givenSituation, 2);
+            if (executedMove) {
+              console.log("i did run");
+              let m = minimax(executedMove, depth - 1, 1, a, b).score;
+              if (m < endScore) {
+                endScore = m;
+                b = endScore;
+                moveDone = move;
+              }
+              if (a >= b) {
+                return { score: b, move: move };
+              }
             }
           }
+          return { score: endScore, move: moveDone };
         }
         if (player === 1) {
           endScore = a;
-          let copy = deepCopy(givenSituation);
-          for (let move = 0; move < 7; move++) {
-            let m = minimax(
-              executeMove(move, givenSituation, 1),
-              depth - 1,
-              2,
-              a,
-              b
-            );
-            if (m > endScore) {
-              givenSituation = deepCopy(copy);
-              endScore = m;
-              a = endScore;
+          let move = 0;
+          let moveDone = 0;
+          for (move = 0; move < 7; move++) {
+            const executedMove = executeMove(move, givenSituation, player);
+            if (executedMove) {
+              let mObj = minimax(
+                executedMove,
+                depth - 1,
+                (player % 2) + 1,
+                a,
+                b
+              );
+              if (!mObj) {
+                console.log();
+              }
+              const m = mObj.score;
+              if (m > endScore) {
+                endScore = m;
+                a = endScore;
+                moveDone = move;
+              }
+              if (a >= b) {
+                return { score: a, move: move };
+              }
             }
-            if (a >= b) {
-              return a;
-            }
-            givenSituation = deepCopy(copy);
           }
+          return { score: endScore, move: moveDone };
         }
-        return endScore;
       } else {
-        if (boardCheck === 1) {
-          return 10000;
+        if (boardScore === 10000) {
+          return { score: 10000, move: null };
         }
-        if (boardCheck === 2) {
-          return -10000;
+        if (boardScore === -10000) {
+          return { score: -10000, move: null };
         }
       }
     }
   }
 
   function nextMove(currentBoard, player) {
-    let moveMade = 0;
-    if (player === 2) {
-      let moveMadeResult = 10000;
-      let copyBoard = deepCopy(currentBoard);
-      for (let n = 0; n < 7; n++) {
-        let res = minimax(
-          executeMove(n, currentBoard, player),
-          5,
-          1,
-          -10000,
-          10000
-        );
-        if (res < moveMadeResult) {
-          moveMadeResult = res;
-          moveMade = n;
-        }
-        currentBoard = deepCopy(copyBoard);
-      }
-    }
-    if (player === 1) {
-      let moveMadeResult = -10000;
-      let copyBoard = deepCopy(currentBoard);
-      for (let n = 0; n < 7; n++) {
-        let res = minimax(
-          executeMove(n, currentBoard, player),
-          5,
-          2,
-          -10000,
-          10000
-        );
-        if (res > moveMadeResult) {
-          moveMadeResult = res;
-          moveMade = n;
-        }
-        currentBoard = deepCopy(copyBoard);
-      }
-    }
-    return moveMade;
+    return minimax(currentBoard, 5, player, -10000, 10000).move;
   }
+
   //console.log(minimax([[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[2,0,1,1,0,0,0]],6,2,-10000,10000))
   const won = board ? checkBoard(board) : 0;
 
   return (
     <div>
-      <Button title={"Restart"} onClick={() => initialize()} />
+      <Button
+        title={"Restart"}
+        onClick={() => {
+          initialize();
+        }}
+      />
+
       {won ? (
         <div> player {won === 1 ? "red" : "black"} has won the game </div>
       ) : null}
@@ -187,7 +178,7 @@ function App() {
                   rowToPlace--
                 ) {
                   if (board[rowToPlace][index] === 0 && !won) {
-                    let tempBoard = [...board];
+                    let tempBoard = deepCopy(board);
                     tempBoard[rowToPlace][index] = turn;
                     setBoard(tempBoard);
                     setTurn(turn === 1 ? 2 : 1);
