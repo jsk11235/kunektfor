@@ -92,11 +92,11 @@ function App() {
   function minimax(givenSituation, depth, player, a, b) {
     if (givenSituation) {
       const boardScore = scoreBoard(givenSituation);
+      let endScore = 0;
       if (Math.abs(boardScore) < 10000) {
         if (depth === 0) {
           return { score: scoreBoard(givenSituation), move: null };
         }
-        let endScore = 0;
         if (player === 2) {
           endScore = b;
           let moveDone = 0;
@@ -114,7 +114,9 @@ function App() {
               }
             }
           }
-          return { score: endScore, move: moveDone };
+          if (executeMove(moveDone,givenSituation,player)) {
+            return {score: endScore, move: moveDone};
+          }
         }
         if (player === 1) {
           endScore = a;
@@ -141,7 +143,9 @@ function App() {
               }
             }
           }
-          return { score: endScore, move: moveDone };
+          if (executeMove(moveDone,givenSituation,player)) {
+            return {score: endScore, move: moveDone};
+          }
         }
       } else {
         if (boardScore === 10000) {
