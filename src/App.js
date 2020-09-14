@@ -155,7 +155,7 @@ function App() {
   }
 
   function nextMove(currentBoard, player) {
-    return minimax(currentBoard, difficulty + 3, player, -10000, 10000).move;
+    return minimax(currentBoard, difficulty + 4, player, -10000, 10000).move;
   }
 
   //console.log(minimax([[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[2,0,1,1,0,0,0]],6,2,-10000,10000))
