@@ -14,6 +14,72 @@ export function arraysEqual(a, b) {
   return true;
 }
 
+export function scoreBoard(boardToScore) {
+  if (checkBoard(boardToScore) === 1) {
+    return -10000;
+  }
+  if (checkBoard(boardToScore) === 2) {
+    return 10000;
+  }
+  let score = 0;
+  for (let x = 0; x < boardToScore.length; x++) {
+    for (let y = 0; y < boardToScore[0].length; y++) {
+      for (let z = -1; z < 2; z++) {
+        for (let w = -1; w < 2; w++) {
+          if (
+            boardToScore[x]+1 &&
+            boardToScore[x][y]+1 &&
+            boardToScore[x + w]+1 &&
+            boardToScore[x + w][y + z]+1 &&
+            boardToScore[x + 2 * w] +1&&
+            boardToScore[x + 2 * w][y + 2 * z]+1 &&
+            boardToScore[x + 3 * w]+1&&
+            boardToScore[x + 3 * w][y + 3 * z]+1
+
+            &&
+            arraysEqual(
+              [
+                boardToScore[x][y],
+                boardToScore[x + w][y + z],
+                boardToScore[x + 2 * w][y + 2 * z],
+                boardToScore[x + 3 * w][y + 3 * z],
+              ],
+              [0, 1, 1, 1]
+            )
+          ) {
+            score++
+          }
+          if (boardToScore[x]+1 &&
+            boardToScore[x][y] +1&&
+            boardToScore[x + w]+1 &&
+            boardToScore[x + w][y + z]+1 &&
+            boardToScore[x + 2 * w]+1&&
+            boardToScore[x + 2 * w][y + 2 * z]+1 &&
+            boardToScore[x + 3 * w]+1&&
+            boardToScore[x + 3 * w][y + 3 * z]+1
+
+            &&
+            arraysEqual(
+              [
+                boardToScore[x][y],
+                boardToScore[x + w][y + z],
+                boardToScore[x + 2 * w][y + 2 * z],
+                boardToScore[x + 3 * w][y + 3 * z],
+              ],
+              [0, 2, 2, 2]
+            )
+        )
+          {
+            score--
+          }
+
+        }
+      }
+    }
+  }
+  return score
+}
+
 export function checkBoard(board) {
   let won = 0;
   for (let x = 0; x < board.length; x++) {
