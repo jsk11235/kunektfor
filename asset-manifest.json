@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/kunektfor/static/css/main.27fd15f6.chunk.css",
-    "main.js": "/kunektfor/static/js/main.ef97d50d.chunk.js",
-    "main.js.map": "/kunektfor/static/js/main.ef97d50d.chunk.js.map",
+    "main.js": "/kunektfor/static/js/main.bc17dd60.chunk.js",
+    "main.js.map": "/kunektfor/static/js/main.bc17dd60.chunk.js.map",
     "runtime-main.js": "/kunektfor/static/js/runtime-main.cd4bed49.js",
     "runtime-main.js.map": "/kunektfor/static/js/runtime-main.cd4bed49.js.map",
     "static/js/2.cfece18b.chunk.js": "/kunektfor/static/js/2.cfece18b.chunk.js",
     "static/js/2.cfece18b.chunk.js.map": "/kunektfor/static/js/2.cfece18b.chunk.js.map",
     "index.html": "/kunektfor/index.html",
-    "precache-manifest.aae20ca01ac57dc5934ce941f8315928.js": "/kunektfor/precache-manifest.aae20ca01ac57dc5934ce941f8315928.js",
+    "precache-manifest.ce915bc6e736de0914c75dca7d787887.js": "/kunektfor/precache-manifest.ce915bc6e736de0914c75dca7d787887.js",
     "service-worker.js": "/kunektfor/service-worker.js",
     "static/css/main.27fd15f6.chunk.css.map": "/kunektfor/static/css/main.27fd15f6.chunk.css.map",
     "static/js/2.cfece18b.chunk.js.LICENSE.txt": "/kunektfor/static/js/2.cfece18b.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.cd4bed49.js",
     "static/js/2.cfece18b.chunk.js",
     "static/css/main.27fd15f6.chunk.css",
-    "static/js/main.ef97d50d.chunk.js"
+    "static/js/main.bc17dd60.chunk.js"
   ]
 }
