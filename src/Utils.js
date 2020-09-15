@@ -37,7 +37,7 @@ export function scoreBoard(boardToScore) {
             boardToScore[x + 3 * w][y + 3 * z]+1
 
             &&
-            arraysEqual(
+            (arraysEqual(
               [
                 boardToScore[x][y],
                 boardToScore[x + w][y + z],
@@ -45,7 +45,15 @@ export function scoreBoard(boardToScore) {
                 boardToScore[x + 3 * w][y + 3 * z],
               ],
               [0, 1, 1, 1]
-            )
+            ) || arraysEqual(
+            [
+              boardToScore[x][y],
+              boardToScore[x + w][y + z],
+              boardToScore[x + 2 * w][y + 2 * z],
+              boardToScore[x + 3 * w][y + 3 * z],
+            ],
+            [1, 0, 1, 1]
+            ))
           ) {
             score++
           }
@@ -59,7 +67,7 @@ export function scoreBoard(boardToScore) {
             boardToScore[x + 3 * w][y + 3 * z]+1
 
             &&
-            arraysEqual(
+            (arraysEqual(
               [
                 boardToScore[x][y],
                 boardToScore[x + w][y + z],
@@ -67,7 +75,16 @@ export function scoreBoard(boardToScore) {
                 boardToScore[x + 3 * w][y + 3 * z],
               ],
               [0, 2, 2, 2]
-            )
+            ) ||
+            arraysEqual(
+              [
+                boardToScore[x][y],
+                boardToScore[x + w][y + z],
+                boardToScore[x + 2 * w][y + 2 * z],
+                boardToScore[x + 3 * w][y + 3 * z],
+              ],
+              [2, 0, 2, 2]
+            ))
         )
           {
             score--
