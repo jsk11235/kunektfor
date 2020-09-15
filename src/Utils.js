@@ -55,7 +55,7 @@ export function scoreBoard(boardToScore) {
             [1, 0, 1, 1]
             ))
           ) {
-            score++
+            score=score+1.5
           }
           if (boardToScore[x]+1 &&
             boardToScore[x][y] +1&&
