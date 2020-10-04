@@ -183,7 +183,7 @@ function App() {
           ))}
         </div>
         <div>
-          {waiting ? (
+          {turn-1 ? (
             <div>Computer is thinking</div>
           ) : (
             <div>
@@ -220,7 +220,7 @@ function App() {
                   setBoard(tempBoard);
                   setTurn(turn === 1 ? 2 : 1);
                   setRecentMove([rowToPlace, index]);
-                  setWaiting(true);
+                  setTimeout(() => setWaiting(true), 100);
                 }
               }}
               selected={
